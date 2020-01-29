@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class PostController extends AbstractController
@@ -48,6 +49,18 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
+            /** @var UploadedFile $file */
+            $file = $request->files->get('post')['imagem'];
+            if($file){
+                $fileName = md5(uniqid()) . '.' . $file->guessClientExtension();
+
+                $file->move(
+                    $this->getParameter('uploads_dir'),
+                    $fileName
+                );
+                $post->setImage($fileName);
+            }
+
             //Checa se tem mais de 3 destaques e, se tiver, tira o destaque do ultimo
             if($post->getSpotlight()){
                 $arrayDestaques = $pr->findBy(array('spotlight' => true));
@@ -56,6 +69,7 @@ class PostController extends AbstractController
                     $entityManager->persist($arrayDestaques[0]);
                 }
             }
+
  
             $entityManager->persist($post);
             $entityManager->flush();

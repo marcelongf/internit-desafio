@@ -10,20 +10,28 @@
             <h1>Todas as notícias</h1>
         {% endif %}
         {% for post in posts %}
-            <div>
-                <h2>{{post.title}}</h2>
-                <p>Data: {{ post.date | date("d/m/y") }}</p>
-                <h5>{{ post.resume }}</h5>
-                <a href="{{ path('post_show', {'id': post.id}) }}">Saiba mais</a>
-                <br>
-                <br>
-            </div>
+            <div class="card text-center">
+                <div class="card-header">
+                    <h2>{{post.title}}</h2>
+                </div>
+                <div class="card-body">
+                    <img src="{{ '/uploads/' ~ post.image }}" alt="">
+                    <h5>{{ post.resume }}</h5>
+                    <a class="btn btn-primary" href="{{ path('post_show', {'id': post.id}) }}">Saiba mais</a>
+                </div>
+                <div class="card-footer text-muted">
+                    <p>Data: {{ post.date | date("d/m/y") }}</p>
+                </div>
+            </div>      
+            <br>
+            <br>
+            
         {% endfor %}
 
         {% if homepage %}
-            <a href="{{ path('post_index') }}">Veja mais noticias</a>
+            <a class="btn btn-primary" href="{{ path('post_index') }}">Veja mais noticias</a>
         {% else %}
-            <a href="{{ path('home') }}">Voltar</a>
+            <a class="btn btn-primary" href="{{ path('home') }}">Voltar</a>
         {% endif %}
     </div>
 {% endblock %}

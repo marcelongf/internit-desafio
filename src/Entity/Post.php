@@ -44,6 +44,11 @@ class Post
      */
     private $spotlight;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +110,18 @@ class Post
     public function setSpotlight(?bool $spotlight): self
     {
         $this->spotlight = $spotlight;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

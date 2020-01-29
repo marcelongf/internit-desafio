@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class PostType extends AbstractType
 {
@@ -19,6 +20,9 @@ class PostType extends AbstractType
             ])
             ->add('resume')
             ->add('content')
+            ->add('imagem', FileType::class, [
+                'mapped' => false
+            ])
             ->add('spotlight')
         ;
     }
