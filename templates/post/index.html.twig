@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
-                <td>{{ post.date }}</td>
+                <td>{{ post.date | date("d/m/y") }}</td>
                 <td>{{ post.resume }}</td>
                 <td>{{ post.content }}</td>
                 <td>{{ post.spotlight ? 'Yes' : 'No' }}</td>

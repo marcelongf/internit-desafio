@@ -6,6 +6,7 @@ use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class PostType extends AbstractType
 {
@@ -13,7 +14,9 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('date')
+            ->add('date', DateType::class, [
+                'widget' => 'single_text'
+            ])
             ->add('resume')
             ->add('content')
             ->add('spotlight')

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -22,7 +24,8 @@ class Post
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var \DateTime
+     * @ORM\Column(name="date", type="date")
      */
     private $date;
 
@@ -58,12 +61,12 @@ class Post
         return $this;
     }
 
-    public function getDate(): ?string
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
 
-    public function setDate(string $date): self
+    public function setDate(DateTime $date): self
     {
         $this->date = $date;
 
