@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
-class UserType extends AbstractType
+class UserTypeAdmin extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,6 +26,7 @@ class UserType extends AbstractType
                 ->add('address')
                 ->add('city')
                 ->add('state')
+                ->add('isAdmin')
             ;
     }
 
