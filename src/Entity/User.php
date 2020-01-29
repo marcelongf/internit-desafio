@@ -33,6 +33,26 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=11)
+     */
+    private $cpf;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
+    private $state;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,5 +129,53 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getCpf(): ?string
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf(string $cpf): self
+    {
+        $this->cpf = $cpf;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
+
+        return $this;
     }
 }
