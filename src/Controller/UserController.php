@@ -53,6 +53,10 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
+        if($this->getUser() != $user){
+            return $this->redirect($this->generateUrl('home'));
+        }
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -63,6 +67,10 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
+        if($this->getUser() != $user){
+            return $this->redirect($this->generateUrl('home'));
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
