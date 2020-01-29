@@ -3,41 +3,27 @@
 {% block title %}Post index{% endblock %}
 
 {% block body %}
-    <h1>Post index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Resume</th>
-                <th>Content</th>
-                <th>Spotlight</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for post in posts %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.title }}</td>
-                <td>{{ post.date | date("d/m/y") }}</td>
-                <td>{{ post.resume }}</td>
-                <td>{{ post.content }}</td>
-                <td>{{ post.spotlight ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
-                </td>
-            </tr>
+    <div class="container col-md-5 m-auto">
+        {% if homepage %}
+            <h1>Notícias em destaque</h1>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+            <h1>Todas as notícias</h1>
+        {% endif %}
+        {% for post in posts %}
+            <div>
+                <h2>{{post.title}}</h2>
+                <p>Data: {{ post.date | date("d/m/y") }}</p>
+                <h5>{{ post.resume }}</h5>
+                <a href="{{ path('post_show', {'id': post.id}) }}">Saiba mais</a>
+                <br>
+                <br>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('post_new') }}">Create new</a>
+        {% if homepage %}
+            <a href="{{ path('post_index') }}">Veja mais noticias</a>
+        {% else %}
+            <a href="{{ path('home') }}">Voltar</a>
+        {% endif %}
+    </div>
 {% endblock %}

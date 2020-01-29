@@ -10,25 +10,35 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/post")
- */
+
 class PostController extends AbstractController
 {
     /**
-     * @Route("/", name="post_index", methods={"GET"})
+     * @Route("/", name="home", methods={"GET"})
      */
     public function index(PostRepository $postRepository): Response
     {
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $postRepository->findBy(['spotlight' => true]),
+            'homepage' => true
         ]);
     }
 
     /**
-     * @Route("/new", name="post_new", methods={"GET","POST"})
+     * @Route("/post", name="post_index", methods={"GET"})
      */
-    public function new(Request $request): Response
+    public function all(PostRepository $postRepository): Response
+    {
+        return $this->render('post/index.html.twig', [
+            'posts' => $postRepository->findAll(),
+            'homepage' => false
+        ]);
+    }
+
+    /**
+     * @Route("/post/new", name="post_new", methods={"GET","POST"})
+     */
+    public function new(Request $request, PostRepository $pr): Response
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
@@ -37,6 +47,16 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            //Checa se tem mais de 3 destaques e, se tiver, tira o destaque do ultimo
+            if($post->getSpotlight()){
+                $arrayDestaques = $pr->findBy(array('spotlight' => true));
+                if(sizeof($arrayDestaques) >= 3){
+                    $arrayDestaques[0]->setSpotlight(false);
+                    $entityManager->persist($arrayDestaques[0]);
+                }
+            }
+ 
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -50,7 +70,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="post_show", methods={"GET"})
+     * @Route("/post/{id}", name="post_show", methods={"GET"})
      */
     public function show(Post $post): Response
     {
@@ -60,7 +80,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="post_edit", methods={"GET","POST"})
+     * @Route("/post/{id}/edit", name="post_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Post $post): Response
     {
@@ -80,7 +100,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="post_delete", methods={"DELETE"})
+     * @Route("/post/{id}", name="post_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Post $post): Response
     {

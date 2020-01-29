@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ path('home') }}">Noticias em destaque <span class="sr-only">(current)</span></a>
                 </li>
                 {% if app.user %}
                     <li class="nav-item active">
@@ -22,6 +22,12 @@
                     </li>
                     <li>
                         <a class="nav-link" href="{{ path('user_show', {'id': app.user.id}) }}">Perfil</a>
+                    </li>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a class="nav-link" href="{{ path('post_new') }}">Criar nova noticia</a>
                     </li>
                 {% endif %}
                 
