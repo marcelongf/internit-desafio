@@ -27,7 +27,6 @@ class UserType extends AbstractType
                 ->add('address')
                 ->add('city')
                 ->add('state')
-                ->add('isAdmin')
             ;
     }
 
