@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user")
@@ -32,7 +33,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
             return $this->redirect($this->generateUrl('home'));
@@ -45,6 +46,9 @@ class UserController extends AbstractController
             if(null !== $user->getIsAdmin()){
                 $user->setIsAdmin(false);
             }
+            $user->setPassword(
+                $passwordEncoder->encodePassword($user, $user->getPassword())
+            );
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -77,13 +81,13 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        // if($this->getUser() != $user){
-        //     if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
-        //         return $this->redirect($this->generateUrl('home'));
-        //     }
-        // }
+        if($this->getUser() != $user){
+            if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+                return $this->redirect($this->generateUrl('home'));
+            }
+        }
 
         //checa se o usuario é admin e carrega o form com ou sem a opção de tornar o outro usuario admin
 
@@ -96,6 +100,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $passwordEncoder->encodePassword($user, $user->getPassword())
+            );
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('home');
