@@ -79,11 +79,11 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
-        if($this->getUser() != $user){
-            if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
-                return $this->redirect($this->generateUrl('home'));
-            }
-        }
+        // if($this->getUser() != $user){
+        //     if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+        //         return $this->redirect($this->generateUrl('home'));
+        //     }
+        // }
 
         //checa se o usuario é admin e carrega o form com ou sem a opção de tornar o outro usuario admin
 
@@ -98,7 +98,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user/edit.html.twig', [
