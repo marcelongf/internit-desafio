@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -40,6 +41,9 @@ class RegistrationController extends AbstractController
             ->add('address')
             ->add('city')
             ->add('state')
+            ->add('isAdmin', HiddenType::class, [
+                'empty_data' => false
+            ])
             ->add('Registrar', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary float-right'

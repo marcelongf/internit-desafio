@@ -38,10 +38,13 @@ class UserController extends AbstractController
             return $this->redirect($this->generateUrl('home'));
         }
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserTypeAdmin::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(null !== $user->getIsAdmin()){
+                $user->setIsAdmin(false);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

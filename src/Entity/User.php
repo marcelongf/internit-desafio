@@ -61,7 +61,7 @@ class User implements UserInterface
     private $state;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $isAdmin;
 
@@ -203,6 +203,9 @@ class User implements UserInterface
 
     public function getIsAdmin(): ?bool
     {
+        if($this->isAdmin == null){
+            return false;
+        }
         return $this->isAdmin;
     }
 
