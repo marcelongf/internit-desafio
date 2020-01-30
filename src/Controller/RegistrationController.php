@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,8 +42,8 @@ class RegistrationController extends AbstractController
             ->add('address')
             ->add('city')
             ->add('state')
-            ->add('isAdmin', HiddenType::class, [
-                'empty_data' => false
+            ->add('isAdmin', CheckboxType::class, [
+                'required' => false
             ])
             ->add('Registrar', SubmitType::class, [
                 'attr' => [
