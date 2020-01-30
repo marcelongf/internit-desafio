@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
             ->add('address')
             ->add('city')
             ->add('state')
-            ->add('isAdmin', CheckboxType::class)
+            ->add('is_admin', CheckboxType::class)
             ->add('Registrar', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary float-right'
